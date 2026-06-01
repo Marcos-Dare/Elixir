@@ -1,5 +1,6 @@
 defmodule Mcc do
 
+  #Operações Numericas:
   def somar_naturais(n), do: somar_naturais(n, 0)
   defp somar_naturais(0, acumulador), do: acumulador
   defp somar_naturais(n, acumulador), do: somar_naturais(n - 1, acumulador + n)
@@ -43,6 +44,7 @@ defmodule Mcc do
   defp soma_fracoes(1, acc), do: acc
   defp soma_fracoes(n, acc), do: soma_fracoes(n - 1, 1 / n + acc)
 
+  # Operações com Listas:
   def tamanho(lista), do: tamanho(lista, 0)
   defp tamanho([], acc), do: acc
   defp tamanho([head|tail], acc), do: tamanho(tail, 1 + acc)
@@ -62,4 +64,38 @@ defmodule Mcc do
   def inverter(lista), do: inverter(lista, [])
   defp inverter([], acc), do: acc
   defp inverter([head|tail], acc), do: inverter(tail, [head | acc])
+
+  def maior([head|tail]), do: maior(tail, head)
+  defp maior([], maior_atual), do: maior_atual
+  defp maior([head|tail], maior_atual) when head > maior_atual, do: maior(tail, head)
+  defp maior([head|tail], maior_atual) when head < maior_atual, do: maior(tail, maior_atual)
+
+  def maiores_que(elemento, lista), do: maiores_que(elemento, lista, [])
+  defp maiores_que(elemento, [], acc), do: acc
+  defp maiores_que(elemento, [head | tail], acc) when head < elemento, do: maiores_que(elemento, tail, acc)
+  defp maiores_que(elemento, [head | tail], acc) when head >= elemento do
+    maiores_que(elemento, tail, acc ++ [head])
+  end
+
+  def maiores_que?(elemento, []), do: true
+  def maiores_que?(elemento, [head|tail]) when head >= elemento, do: false
+  def maiores_que?(elemento, [head|tail]) when head < elemento, do: maiores_que?(elemento, tail)
+
+  def contar_ocorrencias(elemento, lista), do: contar_ocorrencias(elemento, lista, 0)
+  defp contar_ocorrencias(elemento, [], acc), do: acc
+  defp contar_ocorrencias(elemento, [head|tail], acc) when head == elemento, do: contar_ocorrencias(elemento, tail, 1 + acc)
+  defp contar_ocorrencias(elemento, [head|tail], acc) when head != elemento, do: contar_ocorrencias(elemento, tail, acc)
+
+  def remover(elemento, lista), do: remover(elemento, lista, [])
+  defp remover(elemento, [], acc), do: acc
+  defp remover(elemento, [elemento|tail], acc), do: acc ++ tail
+  defp remover(elemento, [head|tail], acc), do: remover(elemento, tail, acc ++ [head])
+
+  #Operações com Conjuntos:
+  def eh_conjunto([]), do: true
+  def eh_conjunto([head|tail]), do: eh_conjunto([head|tail], pertence?(head, tail))
+  def eh_conjunto([], _bool), do: true
+  def eh_conjunto([head|tail], bool) when bool == false, do: eh_conjunto(tail, pertence?(head, tail))
+  def eh_conjunto([head|tail], bool) when bool, do: false
+
 end
